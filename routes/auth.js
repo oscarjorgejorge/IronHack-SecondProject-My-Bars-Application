@@ -1,7 +1,11 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const bcrypt = require('bcrypt');
 
 const Bar = require('../models/bar');
+
+const router = express.Router();
+
+const bcryptSalt = 10;
 
 /* GET users listing. */
 router.get('/signup', function (req, res, next) {
@@ -19,9 +23,12 @@ router.post('/signup', function (req, res, next) {
     coordinates: [Number(req.body.latitude), Number(req.body.longitude)]
   };
 
+  const salt = bcrypt.genSaltSync(bcryptSalt);
+  const hashPass = bcrypt.hashSync(password, salt);
+
   const newBar = new Bar({
     username,
-    password,
+    password: hashPass,
     barname,
     price,
     location
