@@ -8,9 +8,15 @@ const BarSchema = Schema({
   password: String,
   barname: String,
   price: Number,
-  location: { type: { type: String }, coordinates: [Number] }
-
+  location: {
+    type: {
+      type: String,
+      default: 'Point'
+    },
+    coordinates: [Number]
+  }
 });
+BarSchema.index({ location: '2dsphere' });
 
 const Bar = mongoose.model('Bar', BarSchema);
 

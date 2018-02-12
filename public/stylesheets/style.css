@@ -4,11 +4,11 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: rgb(27, 17, 163);
 }
 
 .maincontainer {
-  background-color: #00B7FF;
+  background-color: rgb(150, 190, 39);
   height: 300px;
 }
 

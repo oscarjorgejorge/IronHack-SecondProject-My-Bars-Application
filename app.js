@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const favicon = require('serve-favicon');
+// const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -17,6 +17,7 @@ const app = express();
 
 // --- database set-up
 
+mongoose.Promise = Promise;
 mongoose.connect('mongodb://localhost/mybars', {
   keepAlive: true,
   reconnectTries: Number.MAX_VALUE
@@ -49,6 +50,11 @@ app.use(session({
     maxAge: 24 * 60 * 60 * 1000
   }
 }));
+
+app.use((req, res, next) => {
+  app.locals.user = req.session.currentUser;
+  next();
+});
 
 // --- routes
 app.use('/', index);

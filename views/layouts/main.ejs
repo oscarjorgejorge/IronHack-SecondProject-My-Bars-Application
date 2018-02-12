@@ -5,7 +5,13 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <header>I am the header</header>
+    <header>I am the header
+      <% if (user) { %> 
+      <form method="post" action='/auth/logout'>
+        <button>Logout</button>
+      </form>
+    <%}%>
+    </header>
     <a href='/'><button>Home</button></a>
 
       <div class="maincontainer">

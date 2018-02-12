@@ -1,5 +1,12 @@
 <h2>Profile information</h2>
 
+<p>User name : <%= username %></p>
+<p>Password</p>
+<p>Name of the bar : <%= barname %></p>
+<p>Price : <%= price %></p>
+<p>Adress : Latitude : <%= location.coordinates[0] %> and Longitude : <%= location.coordinates[1] %></p>
+
+
 <form method="post" action='/auth/logout'>
   <button>Logout</button>
 </form>

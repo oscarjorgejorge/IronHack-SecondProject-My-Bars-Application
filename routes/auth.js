@@ -12,8 +12,7 @@ router.get('/signup', (req, res, next) => {
   if (req.session.currentUser) {
     return res.redirect('/bar/profile');
   }
-  const data = {};
-  res.render('auth/signup', data);
+  res.render('auth/signup');
 });
 
 router.post('/signup', (req, res, next) => {
@@ -26,7 +25,6 @@ router.post('/signup', (req, res, next) => {
   const barname = req.body.barname;
   const price = req.body.price;
   const location = {
-    type: 'Point',
     // turn req.body.latitude/long into the number
     coordinates: [Number(req.body.latitude), Number(req.body.longitude)]
   };
@@ -99,12 +97,12 @@ router.post('/login', (req, res, next) => {
   }
 
   // --- check if the username exist
-  Bar.findOne({ 'username': username }, (err, user) => {
+  Bar.findOne({ 'username': username }, (err, bar) => {
     if (err) {
       return next(err);
     }
 
-    if (!user) {
+    if (!bar) {
       const data = {
         message: 'Username is incorrect'
       };
@@ -112,8 +110,8 @@ router.post('/login', (req, res, next) => {
     }
 
     // --- check if the password is correct
-    if (bcrypt.compareSync(password, user.password)) {
-      req.session.currentUser = user;
+    if (bcrypt.compareSync(password, bar.password)) {
+      req.session.currentUser = bar;
       res.redirect('/bar/profile');
     } else {
       const data = {
