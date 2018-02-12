@@ -13,8 +13,6 @@ router.get('/profile', (req, res, next) => {
   const price = req.session.currentUser.price;
   const location = req.session.currentUser.location;
 
-  console.log(location);
-
   const data = {
     username,
     barname,
