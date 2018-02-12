@@ -5,11 +5,19 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const expressLayouts = require('express-ejs-layouts');
+const mongoose = require('mongoose');
 
 const index = require('./routes/index');
 const auth = require('./routes/auth');
 
 const app = express();
+
+// --- database set-up
+
+mongoose.connect('mongodb://localhost/mybars', {
+  keepAlive: true,
+  reconnectTries: Number.MAX_VALUE
+});
 
 // view engine setup
 app.use(expressLayouts);
