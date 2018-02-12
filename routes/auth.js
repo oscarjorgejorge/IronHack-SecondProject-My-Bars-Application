@@ -8,13 +8,17 @@ const router = express.Router();
 const bcryptSalt = 10;
 
 /* GET users listing. */
-router.get('/signup', function (req, res, next) {
-  res.render('auth/signup');
+router.get('/signup', (req, res, next) => {
+  // if (req.session.currentUser) {
+  //   return res.redirect('/bar/profile');
+  // }
+  const data = {};
+  res.render('auth/signup', data);
 });
 
-router.post('/signup', function (req, res, next) {
+router.post('/signup', (req, res, next) => {
   if (req.session.currentUser) {
-    return res.redirect('/signup');
+    return res.redirect('/bar/profile');
   }
 
   const username = req.body.username;
@@ -70,8 +74,13 @@ router.post('/signup', function (req, res, next) {
   });
 });
 
-router.get('/login', function (req, res, next) {
+router.get('/login', (req, res, next) => {
   res.render('auth/login');
+});
+
+router.post('/logout', (req, res, next) => {
+  req.session.currentUser = null;
+  res.redirect('/');
 });
 
 module.exports = router;
