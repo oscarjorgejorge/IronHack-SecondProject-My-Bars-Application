@@ -9,9 +9,9 @@ const bcryptSalt = 10;
 
 /* GET users listing. */
 router.get('/signup', (req, res, next) => {
-  // if (req.session.currentUser) {
-  //   return res.redirect('/bar/profile');
-  // }
+  if (req.session.currentUser) {
+    return res.redirect('/bar/profile');
+  }
   const data = {};
   res.render('auth/signup', data);
 });
@@ -75,7 +75,53 @@ router.post('/signup', (req, res, next) => {
 });
 
 router.get('/login', (req, res, next) => {
+  if (req.session.currentUser) {
+    return res.redirect('/bar/profile');
+  }
   res.render('auth/login');
+});
+
+/* handle the POST from the login form. */
+router.post('/login', (req, res, next) => {
+  if (req.session.currentUser) {
+    return res.redirect('/');
+  }
+
+  const username = req.body.username;
+  const password = req.body.password;
+
+  // --- check if the fields are not empty
+  if (username === '' || password === '') {
+    const data = {
+      message: 'Indicate a username and a password to sign up'
+    };
+    return res.render('auth/login', data);
+  }
+
+  // --- check if the username exist
+  Bar.findOne({ 'username': username }, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+
+    if (!user) {
+      const data = {
+        message: 'Username is incorrect'
+      };
+      return res.render('auth/login', data);
+    }
+
+    // --- check if the password is correct
+    if (bcrypt.compareSync(password, user.password)) {
+      req.session.currentUser = user;
+      res.redirect('/bar/profile');
+    } else {
+      const data = {
+        message: 'Password is incorrect'
+      };
+      res.render('auth/login', data);
+    }
+  });
 });
 
 router.post('/logout', (req, res, next) => {
