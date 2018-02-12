@@ -11,3 +11,7 @@ a {
   background-color: #00B7FF;
   height: 300px;
 }
+
+.error {
+  color: red;
+}

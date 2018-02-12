@@ -23,6 +23,17 @@ router.post('/signup', function (req, res, next) {
     coordinates: [Number(req.body.latitude), Number(req.body.longitude)]
   };
 
+  // validations
+
+  if (username === '' || password === '' || barname === '' || price === '' ||
+  location.coordinates[0] === '' || location.coordinates[1] === '' || password.length < 6) {
+    const data = {
+      message: 'Try again'
+    };
+
+    return res.render('auth/signup', data);
+  }
+
   const salt = bcrypt.genSaltSync(bcryptSalt);
   const hashPass = bcrypt.hashSync(password, salt);
 
