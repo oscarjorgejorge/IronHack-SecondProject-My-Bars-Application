@@ -13,6 +13,10 @@ router.get('/signup', function (req, res, next) {
 });
 
 router.post('/signup', function (req, res, next) {
+  if (req.session.currentUser) {
+    return res.redirect('/signup');
+  }
+
   const username = req.body.username;
   const password = req.body.password;
   const barname = req.body.barname;
@@ -30,27 +34,39 @@ router.post('/signup', function (req, res, next) {
     const data = {
       message: 'Try again'
     };
-
     return res.render('auth/signup', data);
   }
 
-  const salt = bcrypt.genSaltSync(bcryptSalt);
-  const hashPass = bcrypt.hashSync(password, salt);
-
-  const newBar = new Bar({
-    username,
-    password: hashPass,
-    barname,
-    price,
-    location
-  });
-
-  newBar.save((error) => {
-    if (error) {
-      return next(error);
+  // check if user with this username already exists
+  Bar.findOne({ 'username': username }, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (user) {
+      const data = {
+        message: 'The "' + username + '" username is taken'
+      };
+      return res.render('auth/signup', data);
     }
 
-    res.redirect('/bar/profile');
+    const salt = bcrypt.genSaltSync(bcryptSalt);
+    const hashPass = bcrypt.hashSync(password, salt);
+
+    const newBar = new Bar({
+      username,
+      password: hashPass,
+      barname,
+      price,
+      location
+    });
+
+    newBar.save((error) => {
+      if (error) {
+        return next(error);
+      }
+      req.session.currentUser = newBar;
+      res.redirect('/bar/profile');
+    });
   });
 });
 

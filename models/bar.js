@@ -12,4 +12,6 @@ const BarSchema = Schema({
 
 });
 
-module.exports = mongoose.model('Bar', BarSchema);
+const Bar = mongoose.model('Bar', BarSchema);
+
+module.exports = Bar;
