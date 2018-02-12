@@ -38,11 +38,13 @@ router.post('/signup', function (req, res, next) {
     if (error) {
       return next(error);
     }
-    res.render('auth/signup');
+
+    res.redirect('/bar/profile');
   });
 });
 
 router.get('/login', function (req, res, next) {
   res.render('auth/login');
 });
+
 module.exports = router;

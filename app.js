@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 
 const index = require('./routes/index');
 const auth = require('./routes/auth');
+const bar = require('./routes/bar');
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/auth', auth);
+app.use('/bar', bar);
 
 // -- 404 and error handler
 
