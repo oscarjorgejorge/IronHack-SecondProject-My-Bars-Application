@@ -23,15 +23,14 @@ router.post('/signup', (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
   const barname = req.body.barname;
-  const price = req.body.price;
+  const originalPrice = req.body.price;
   const location = {
     // turn req.body.latitude/long into the number
     coordinates: [Number(req.body.latitude), Number(req.body.longitude)]
   };
-
   // validations
 
-  if (username === '' || password === '' || barname === '' || price === '' ||
+  if (username === '' || password === '' || barname === '' || originalPrice === '' ||
   location.coordinates[0] === '' || location.coordinates[1] === '' || password.length < 6) {
     const data = {
       message: 'Try again'
@@ -51,6 +50,7 @@ router.post('/signup', (req, res, next) => {
       return res.render('auth/signup', data);
     }
 
+    let price = Math.round(originalPrice * 10) / 10;
     const salt = bcrypt.genSaltSync(bcryptSalt);
     const hashPass = bcrypt.hashSync(password, salt);
 

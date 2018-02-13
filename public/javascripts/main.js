@@ -49,7 +49,7 @@ function main () {
             },
             // icon: icon,
             map: map,
-            label: myBars[i].price.toString()
+            label: myBars[i].price.toString() + '€'
           });
 
           infoWindow.setPosition({
