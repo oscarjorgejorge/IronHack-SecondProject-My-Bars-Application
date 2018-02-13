@@ -1,7 +1,8 @@
 'use strict';
 
 function main () {
-  console.log(myBars);
+  const barname = myBars[0].barname;
+  console.log(barname);
 
   function initMap () {
     const mapOptions = {
@@ -35,8 +36,11 @@ function main () {
           map: map
         });
 
-        // bars markers
+        // bars markers & infowindow
         for (let i = 0; i < myBars.length; i++) {
+          let contentString = myBars[i].barname;
+          const infoWindow = new google.maps.InfoWindow(
+            {content: contentString});
           const barsMarker = new google.maps.Marker({
             position: {
               lat: myBars[i].location.coordinates[0],
@@ -45,8 +49,26 @@ function main () {
             // icon: icon,
             map: map
           });
+
+          infoWindow.setPosition({
+            lat: myBars[i].location.coordinates[0],
+            lng: myBars[i].location.coordinates[1]
+          });
+          barsMarker.addListener('click', () => {
+            if (!barsMarker.open) {
+              infoWindow.open(map, barsMarker);
+              barsMarker.open = true;
+            } else {
+              infoWindow.close();
+              barsMarker.open = false;
+            }
+            google.maps.event.addListener(map, 'click', () => {
+              infoWindow.close();
+              barsMarker.open = false;
+            });
+          });
         }
-        // infoWindow.setPosition(pos);
+
         // infoWindow.setContent('Location found.');
         map.setCenter(pos);
       }, function () {
