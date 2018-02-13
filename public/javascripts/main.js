@@ -1,5 +1,4 @@
 'use strict';
-// const geolocationmarker = require('geolocation-marker');
 
 function main () {
   console.log(myBars);
@@ -8,13 +7,11 @@ function main () {
     const mapOptions = {
       zoom: 14,
       center: new google.maps.LatLng(41.396298, 2.191881)
-      // mapTypeId: google.maps.MapTypeId.ROADMAP
 
     };
     const map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-    const infoWindow = new google.maps.InfoWindow({map: map});
-    // const GeoMarker = new GeolocationMarker(map);
+    // const infoWindow = new google.maps.InfoWindow({map: map});
 
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
@@ -24,8 +21,9 @@ function main () {
           lng: position.coords.longitude
         };
 
-        let shape = {
-          type: 'circle'
+        let icon = {
+          url: '../images/currentpositionmarker.png',
+          scaledSize: new google.maps.Size(20, 20)
         };
 
         const myMarker = new google.maps.Marker({
@@ -33,15 +31,12 @@ function main () {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           },
-          shape: shape,
+          icon: icon,
           map: map
         });
-        // myMarker.MarkerShape
-        // google.maps.MarkerShape
-        // myMarker.type = 'circle';
 
-        infoWindow.setPosition(pos);
-        infoWindow.setContent('Location found.');
+        // infoWindow.setPosition(pos);
+        // infoWindow.setContent('Location found.');
         map.setCenter(pos);
       }, function () {
         handleLocationError(true, infoWindow, map.getCenter());
