@@ -11,12 +11,14 @@ router.get('/profile', (req, res, next) => {
   const username = req.session.currentUser.username;
   const barname = req.session.currentUser.barname;
   const price = req.session.currentUser.price;
+  const address = req.session.currentUser.address;
   const location = req.session.currentUser.location;
 
   const data = {
     username,
     barname,
     price,
+    address,
     location
   };
 

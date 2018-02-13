@@ -14,7 +14,8 @@ const BarSchema = Schema({
       default: 'Point'
     },
     coordinates: [Number]
-  }
+  },
+  address: String
 });
 BarSchema.index({ location: '2dsphere' });
 

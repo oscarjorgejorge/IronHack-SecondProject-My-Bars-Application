@@ -1,5 +1,7 @@
+
 const express = require('express');
 const bcrypt = require('bcrypt');
+const NodeGeocoder = require('node-geocoder');
 
 const Bar = require('../models/bar');
 
@@ -24,14 +26,15 @@ router.post('/signup', (req, res, next) => {
   const password = req.body.password;
   const barname = req.body.barname;
   const originalPrice = req.body.price;
-  const location = {
-    // turn req.body.latitude/long into the number
-    coordinates: [Number(req.body.latitude), Number(req.body.longitude)]
-  };
+  const address = req.body.address;
+  // const location = {
+  //   // turn req.body.latitude/long into the number
+  //   coordinates: [Number(req.body.latitude), Number(req.body.longitude)]
+  // };
   // validations
 
-  if (username === '' || password === '' || barname === '' || originalPrice === '' ||
-  location.coordinates[0] === '' || location.coordinates[1] === '' || password.length < 6) {
+  if (username === '' || password === '' || barname === '' || originalPrice === '' ||/* ||
+  location.coordinates[0] === '' || location.coordinates[1] === '' */ password.length < 6) {
     const data = {
       message: 'Try again'
     };
@@ -51,24 +54,55 @@ router.post('/signup', (req, res, next) => {
     }
 
     let price = Math.round(originalPrice * 10) / 10;
-    const salt = bcrypt.genSaltSync(bcryptSalt);
-    const hashPass = bcrypt.hashSync(password, salt);
 
-    const newBar = new Bar({
-      username,
-      password: hashPass,
-      barname,
-      price,
-      location
-    });
+    // -- transform adress into latitude and longitude
+    const options = {
+      provider: 'google',
 
-    newBar.save((error) => {
-      if (error) {
-        return next(error);
-      }
-      req.session.currentUser = newBar;
-      res.redirect('/bar/profile');
-    });
+      // Optional depending on the providers
+      httpAdapter: 'https', // Default
+      apiKey: 'AIzaSyCHO4Ne2WFbA6IEdXP_XwzyhlvE0QphapU', // for Mapquest, OpenCage, Google Premier
+      formatter: null
+    };
+
+    const geocoder = NodeGeocoder(options);
+    // let latitude;
+    // let longitude;
+    let location = {
+      // turn req.body.latitude/long into the number
+      coordinates: []
+    };
+
+    geocoder.geocode(address)
+      .then((result) => {
+        location.coordinates.push(Number(result[0].latitude));
+        location.coordinates.push(Number(result[0].longitude));
+        console.log(result);
+
+        const salt = bcrypt.genSaltSync(bcryptSalt);
+        const hashPass = bcrypt.hashSync(password, salt);
+
+        const newBar = new Bar({
+          username,
+          password: hashPass,
+          barname,
+          price,
+          location,
+          address
+        });
+
+        newBar.save((error) => {
+          if (error) {
+            return next(error);
+          }
+          req.session.currentUser = newBar;
+          console.log(req);
+          res.redirect('/bar/profile');
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   });
 });
 
