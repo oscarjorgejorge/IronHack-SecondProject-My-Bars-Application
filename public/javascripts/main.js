@@ -3,6 +3,7 @@
 function main () {
   const barname = myBars[0].barname;
   console.log(barname);
+  console.log(myBars[0].price);
 
   function initMap () {
     const mapOptions = {
@@ -47,7 +48,8 @@ function main () {
               lng: myBars[i].location.coordinates[1]
             },
             // icon: icon,
-            map: map
+            map: map,
+            label: myBars[i].price.toString()
           });
 
           infoWindow.setPosition({
