@@ -35,6 +35,17 @@ function main () {
           map: map
         });
 
+        // bars markers
+        for (let i = 0; i < myBars.length; i++) {
+          const barsMarker = new google.maps.Marker({
+            position: {
+              lat: myBars[i].location.coordinates[0],
+              lng: myBars[i].location.coordinates[1]
+            },
+            // icon: icon,
+            map: map
+          });
+        }
         // infoWindow.setPosition(pos);
         // infoWindow.setContent('Location found.');
         map.setCenter(pos);
