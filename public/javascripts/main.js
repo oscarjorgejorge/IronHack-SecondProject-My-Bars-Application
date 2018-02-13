@@ -1,51 +1,65 @@
 'use strict';
+// const geolocationmarker = require('geolocation-marker');
 
-function startMap () {
-  const ironhackBCN = {
-    lat: 41.3977381,
-    lng: 2.190471916};
-  const map = new google.maps.Map(
-    document.getElementById('map'),
-    {
-      zoom: 15,
-      center: ironhackBCN
-    }
-  );
+function main () {
+  console.log(myBars);
 
-  if (navigator.geolocation) {
-    // Get current position
-    // The permissions dialog will popup
-    navigator.geolocation.getCurrentPosition(function (position) {
-      // Create an object to match
-      const center = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
-      // Center the map in the position we got
-      const myMarker = new google.maps.Marker({
-        position: {
-          lat: center.lat,
-          lng: center.lng
-        },
-        map: map,
-        title: "I'm here"
+  function initMap () {
+    const mapOptions = {
+      zoom: 14,
+      center: new google.maps.LatLng(41.396298, 2.191881)
+      // mapTypeId: google.maps.MapTypeId.ROADMAP
+
+    };
+    const map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+    const infoWindow = new google.maps.InfoWindow({map: map});
+    // const GeoMarker = new GeolocationMarker(map);
+
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+
+        let shape = {
+          type: 'circle'
+        };
+
+        const myMarker = new google.maps.Marker({
+          position: {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          },
+          shape: shape,
+          map: map
+        });
+        // myMarker.MarkerShape
+        // google.maps.MarkerShape
+        // myMarker.type = 'circle';
+
+        infoWindow.setPosition(pos);
+        infoWindow.setContent('Location found.');
+        map.setCenter(pos);
+      }, function () {
+        handleLocationError(true, infoWindow, map.getCenter());
       });
-    }, function () {
-      // If something else goes wrong
-      console.log('Error in the geolocation service.');
-    });
-  } else {
-    // Browser says: Nah! I do not support this.
-    // console.log('Browser does not support geolocation.');
-    const myMarker = new google.maps.Marker({
-      position: {
-        lat: 41.3977381,
-        lng: 2.190471916
-      },
-      map: map,
-      title: "I'm here"
-    });
+    } else {
+    // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, map.getCenter());
+    }
   }
+
+  function handleLocationError (browserHasGeolocation, infoWindow, pos) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(browserHasGeolocation
+      ? 'Error: The Geolocation service failed.'
+      : 'Error: Your browser doesn\'t support geolocation.');
+  }
+
+  initMap();
 }
 
-startMap();
+window.onload = main;
