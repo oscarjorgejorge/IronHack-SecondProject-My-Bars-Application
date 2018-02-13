@@ -2,93 +2,97 @@
 
 function main () {
   const barname = myBars[0].barname;
-  console.log(barname);
-  console.log(myBars[0].price);
 
   function initMap () {
+    let myMarker;
     const mapOptions = {
-      zoom: 14,
-      center: new google.maps.LatLng(41.396298, 2.191881)
-
+      zoom: 16,
+      center: {
+        lat: 41.3977381,
+        lng: 2.190471916}
     };
-    const map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-    // const infoWindow = new google.maps.InfoWindow({map: map});
-
-    // Try HTML5 geolocation.
+    // --- center the map on the current location of user (if doesnt fail)
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        const pos = {
+        mapOptions.center = {
           lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
+          lng: position.coords.longitude};
+      });
+    }
+    const map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-        let icon = {
-          url: '../images/currentpositionmarker.png',
-          scaledSize: new google.maps.Size(20, 20)
-        };
-
-        const myMarker = new google.maps.Marker({
-          position: {
+    // Create a new market for the user location
+    function createMyMarker () {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const pos = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
-          },
-          icon: icon,
-          map: map
-        });
+          };
 
-        // bars markers & infowindow
-        for (let i = 0; i < myBars.length; i++) {
-          let contentString = myBars[i].barname;
-          const infoWindow = new google.maps.InfoWindow(
-            {content: contentString});
-          const barsMarker = new google.maps.Marker({
+          let icon = {
+            url: '../images/currentpositionmarker.png',
+            scaledSize: new google.maps.Size(20, 20)
+          };
+
+          myMarker = new google.maps.Marker({
             position: {
-              lat: myBars[i].location.coordinates[0],
-              lng: myBars[i].location.coordinates[1]
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
             },
-            // icon: icon,
-            map: map,
-            label: myBars[i].price.toString() + '€'
+            icon: icon,
+            map: map
           });
 
-          infoWindow.setPosition({
-            lat: myBars[i].location.coordinates[0],
-            lng: myBars[i].location.coordinates[1]
-          });
-          barsMarker.addListener('click', () => {
-            if (!barsMarker.open) {
-              infoWindow.open(map, barsMarker);
-              barsMarker.open = true;
-            } else {
-              infoWindow.close();
-              barsMarker.open = false;
-            }
-            google.maps.event.addListener(map, 'click', () => {
-              infoWindow.close();
-              barsMarker.open = false;
-            });
-          });
-        }
+          map.setCenter(pos);
+        });
+      }
+    };
 
-        // infoWindow.setContent('Location found.');
-        map.setCenter(pos);
-      }, function () {
-        handleLocationError(true, infoWindow, map.getCenter());
+    // --- to work on this :) <<-----------------------------------------------------------------------------------
+    // setInterval(() => {
+    //   createMyMarker();
+    //   destroy myMarker;
+    // }, 5000);
+
+    // --- lop to create markers for the bars location and infoWindow
+    // --- create infoWindow with the content
+    for (let i = 0; i < myBars.length; i++) {
+      let contentString = myBars[i].barname;
+      const infoWindow = new google.maps.InfoWindow(
+        {content: contentString});
+
+        // --- create markers for each bar
+      const barsMarker = new google.maps.Marker({
+        position: {
+          lat: myBars[i].location.coordinates[0],
+          lng: myBars[i].location.coordinates[1]
+        },
+        // --- icon: icon, place to change icon
+        map: map,
+        label: myBars[i].price.toString() + '€'
       });
-    } else {
-    // Browser doesn't support Geolocation
-      handleLocationError(false, infoWindow, map.getCenter());
+
+      // --- bin each infowindow with each bar´s marker and add event listener to display and hide the infowindow
+      infoWindow.setPosition({
+        lat: myBars[i].location.coordinates[0],
+        lng: myBars[i].location.coordinates[1]
+      });
+      barsMarker.addListener('click', () => {
+        if (!barsMarker.open) {
+          infoWindow.open(map, barsMarker);
+          barsMarker.open = true;
+        } else {
+          infoWindow.close();
+          barsMarker.open = false;
+        }
+        google.maps.event.addListener(map, 'click', () => {
+          infoWindow.close();
+          barsMarker.open = false;
+        });
+      });
     }
   }
-
-  function handleLocationError (browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation
-      ? 'Error: The Geolocation service failed.'
-      : 'Error: Your browser doesn\'t support geolocation.');
-  }
-
   initMap();
 }
 
