@@ -2,7 +2,6 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const NodeGeocoder = require('node-geocoder');
-
 const Bar = require('../models/bar');
 
 const router = express.Router();
@@ -26,14 +25,17 @@ router.post('/signup', (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
   const barname = req.body.barname;
+
   const originalPrice = req.body.price;
   let price = Math.round(originalPrice * 10) / 10;
-  const address = req.body.address;
 
+  // --- address using with geocoder
+  const address = req.body.address;
   let location = {
     coordinates: []
   };
 
+  // --- data validation for signup
   if (username === '' || password === '' || barname === '' || originalPrice === '' ||
   address === '' || password.length < 6) {
     const data = {
@@ -42,7 +44,7 @@ router.post('/signup', (req, res, next) => {
     return res.render('auth/signup', data);
   }
 
-  // check if user with this username already exists
+  // --- check if user with this username already exists
   Bar.findOne({ 'username': username }, (err, user) => {
     if (err) {
       return next(err);
@@ -54,7 +56,7 @@ router.post('/signup', (req, res, next) => {
       return res.render('auth/signup', data);
     }
 
-    // -- transform address into latitude and longitude, optional settings, no needed
+    // --- optional settings for geocoder
     const options = {
       // provider: 'google',
       // httpAdapter: 'https', // Default
@@ -62,17 +64,18 @@ router.post('/signup', (req, res, next) => {
       // formatter: null
     };
 
+    // -- transform address into latitude and longitude, optional settings, no needed
     const geocoder = NodeGeocoder(options);
-
-    // turn address into the latitude/longtitude
     geocoder.geocode(address)
       .then((result) => {
         location.coordinates.push(Number(result[0].latitude));
         location.coordinates.push(Number(result[0].longitude));
 
+        // --- password encryption
         const salt = bcrypt.genSaltSync(bcryptSalt);
         const hashPass = bcrypt.hashSync(password, salt);
 
+        // --- create and save new model in database, inside of geocode for asynchronous js
         const newBar = new Bar({
           username,
           password: hashPass,
@@ -86,6 +89,7 @@ router.post('/signup', (req, res, next) => {
           if (error) {
             return next(error);
           }
+          // --- storing the new bar in session
           req.session.currentUser = newBar;
           console.log(req);
           res.redirect('/bar/profile');
@@ -97,6 +101,7 @@ router.post('/signup', (req, res, next) => {
   });
 });
 
+// --- GET Login
 router.get('/login', (req, res, next) => {
   if (req.session.currentUser) {
     return res.redirect('/bar/profile');
@@ -104,7 +109,7 @@ router.get('/login', (req, res, next) => {
   res.render('auth/login');
 });
 
-/* handle the POST from the login form. */
+// --- POST Login
 router.post('/login', (req, res, next) => {
   if (req.session.currentUser) {
     return res.redirect('/');
@@ -147,6 +152,7 @@ router.post('/login', (req, res, next) => {
   });
 });
 
+// --- POST Logout
 router.post('/logout', (req, res, next) => {
   req.session.currentUser = null;
   res.redirect('/');

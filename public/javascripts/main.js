@@ -22,7 +22,7 @@ function main () {
     }
     const map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-    // Create a new market for the user location
+    // Create a new marker for the user location
     function createMyMarker () {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -72,7 +72,7 @@ function main () {
         label: myBars[i].price.toString() + '€'
       });
 
-      // --- bin each infowindow with each bar´s marker and add event listener to display and hide the infowindow
+      // --- bind each infowindow with each bar´s marker and add event listener to display and hide the infowindow
       infoWindow.setPosition({
         lat: myBars[i].location.coordinates[0],
         lng: myBars[i].location.coordinates[1]

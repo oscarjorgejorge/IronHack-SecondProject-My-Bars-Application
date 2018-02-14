@@ -1,13 +1,15 @@
+'use strict';
+
 const express = require('express');
 const router = express.Router();
 
-// const username = session.currentUser.username;
-
+// --- GET Profile
 router.get('/profile', (req, res, next) => {
   if (!req.session.currentUser) {
     return res.redirect('/');
   }
 
+  // --- Collecting data from the session to render it in profile
   const username = req.session.currentUser.username;
   const barname = req.session.currentUser.barname;
   const price = req.session.currentUser.price;
