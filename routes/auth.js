@@ -1,4 +1,4 @@
-
+'use strict';
 const express = require('express');
 const bcrypt = require('bcrypt');
 const NodeGeocoder = require('node-geocoder');
@@ -9,7 +9,7 @@ const router = express.Router();
 
 const bcryptSalt = 10;
 
-/* GET users listing. */
+// --- GET Signup
 router.get('/signup', (req, res, next) => {
   if (req.session.currentUser) {
     return res.redirect('/bar/profile');
@@ -17,6 +17,7 @@ router.get('/signup', (req, res, next) => {
   res.render('auth/signup');
 });
 
+// --- POST Signup
 router.post('/signup', (req, res, next) => {
   if (req.session.currentUser) {
     return res.redirect('/bar/profile');
@@ -26,15 +27,15 @@ router.post('/signup', (req, res, next) => {
   const password = req.body.password;
   const barname = req.body.barname;
   const originalPrice = req.body.price;
+  let price = Math.round(originalPrice * 10) / 10;
   const address = req.body.address;
-  // const location = {
-  //   // turn req.body.latitude/long into the number
-  //   coordinates: [Number(req.body.latitude), Number(req.body.longitude)]
-  // };
-  // validations
+  let location = {
+    // turn req.body.latitude/long into the number
+    coordinates: []
+  };
 
-  if (username === '' || password === '' || barname === '' || originalPrice === '' ||/* ||
-  location.coordinates[0] === '' || location.coordinates[1] === '' */ password.length < 6) {
+  if (username === '' || password === '' || barname === '' || originalPrice === '' ||
+  address === '' || password.length < 6) {
     const data = {
       message: 'Try again'
     };
@@ -53,31 +54,22 @@ router.post('/signup', (req, res, next) => {
       return res.render('auth/signup', data);
     }
 
-    let price = Math.round(originalPrice * 10) / 10;
-
-    // -- transform adress into latitude and longitude
+    // -- transform address into latitude and longitude, optional settings, no needed
     const options = {
-      provider: 'google',
-
-      // Optional depending on the providers
-      httpAdapter: 'https', // Default
-      apiKey: 'AIzaSyCHO4Ne2WFbA6IEdXP_XwzyhlvE0QphapU', // for Mapquest, OpenCage, Google Premier
-      formatter: null
+      // provider: 'google',
+      // httpAdapter: 'https', // Default
+      apiKey: 'AIzaSyCHO4Ne2WFbA6IEdXP_XwzyhlvE0QphapU'
+      // formatter: null
     };
 
     const geocoder = NodeGeocoder(options);
     // let latitude;
     // let longitude;
-    let location = {
-      // turn req.body.latitude/long into the number
-      coordinates: []
-    };
 
     geocoder.geocode(address)
       .then((result) => {
         location.coordinates.push(Number(result[0].latitude));
         location.coordinates.push(Number(result[0].longitude));
-        console.log(result);
 
         const salt = bcrypt.genSaltSync(bcryptSalt);
         const hashPass = bcrypt.hashSync(password, salt);

@@ -1,3 +1,4 @@
+'use strict';
 const express = require('express');
 const path = require('path');
 // const favicon = require('serve-favicon');
@@ -16,7 +17,6 @@ const bar = require('./routes/bar');
 const app = express();
 
 // --- database set-up
-
 mongoose.Promise = Promise;
 mongoose.connect('mongodb://localhost/mybars', {
   keepAlive: true,
@@ -37,7 +37,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// --- sessuib
+// --- session
 app.use(session({
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
@@ -61,17 +61,13 @@ app.use('/', index);
 app.use('/auth', auth);
 app.use('/bar', bar);
 
-// -- 404 and error handler
-
-// NOTE: requires a views/not-found.ejs template
+// --- 404 and error handler
 app.use((req, res, next) => {
   res.status(404);
   res.render('not-found');
 });
 
-// NOTE: requires a views/error.ejs template
 app.use((err, req, res, next) => {
-  // always log the error
   console.error('ERROR', req.method, req.path, err);
 
   // only render if the error ocurred before sending the response
