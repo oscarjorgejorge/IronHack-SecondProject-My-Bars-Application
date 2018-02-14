@@ -52,7 +52,7 @@ function main () {
     // --- to work on this :) <<-----------------------------------------------------------------------------------
     // setInterval(() => {
     //   createMyMarker();
-    //   destroy myMarker;
+    //   // destroy myMarker;
     // }, 5000);
 
     // --- lop to create markers for the bars location and infoWindow
