@@ -17,6 +17,7 @@ function main () {
         mapOptions.center = {
           lat: position.coords.latitude,
           lng: position.coords.longitude};
+        map.setCenter(mapOptions.center);
       });
     }
     const map = new google.maps.Map(document.getElementById('map'), mapOptions);
@@ -36,20 +37,18 @@ function main () {
           };
 
           myMarker = new google.maps.Marker({
-            position: {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            },
+            position: pos,
             icon: icon,
             map: map
           });
-
-          map.setCenter(pos);
+          // --- map.setCenter(pos); center the map on the current location marker
         });
       }
     };
 
-    // --- to work on this :) <<-----------------------------------------------------------------------------------
+    createMyMarker();
+
+    // --- pending, update current location :) <<-----------------------------------------------------------------------------------
     // setInterval(() => {
     //   createMyMarker();
     //   // destroy myMarker;
