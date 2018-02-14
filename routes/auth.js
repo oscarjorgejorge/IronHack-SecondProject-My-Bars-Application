@@ -29,8 +29,8 @@ router.post('/signup', (req, res, next) => {
   const originalPrice = req.body.price;
   let price = Math.round(originalPrice * 10) / 10;
   const address = req.body.address;
+
   let location = {
-    // turn req.body.latitude/long into the number
     coordinates: []
   };
 
@@ -63,9 +63,8 @@ router.post('/signup', (req, res, next) => {
     };
 
     const geocoder = NodeGeocoder(options);
-    // let latitude;
-    // let longitude;
 
+    // turn address into the latitude/longtitude
     geocoder.geocode(address)
       .then((result) => {
         location.coordinates.push(Number(result[0].latitude));
