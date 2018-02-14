@@ -1,4 +1,5 @@
 'use strict';
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 // const favicon = require('serve-favicon');
@@ -18,7 +19,7 @@ const app = express();
 
 // --- database set-up
 mongoose.Promise = Promise;
-mongoose.connect('mongodb://localhost/mybars', {
+mongoose.connect(process.env.MONGODB_URI, {
   keepAlive: true,
   reconnectTries: Number.MAX_VALUE
 });
