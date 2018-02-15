@@ -119,7 +119,7 @@ router.post('/profile', (req, res, next) => {
 });
 
 // --- POST Delete
-router.post('/logout', (req, res, next) => {
+router.post('/delete', (req, res, next) => {
   const id = req.session.currentUser._id;
 
   Bar.findByIdAndRemove(id, (err, product) => {
