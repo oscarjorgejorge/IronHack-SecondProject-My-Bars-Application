@@ -19,6 +19,8 @@ router.get('/profile', (req, res, next) => {
   const price = req.session.currentUser.price;
   const address = req.session.currentUser.address;
   const location = req.session.currentUser.location;
+  const hours = req.session.currentUser.hours;
+  const description = req.session.currentUser.description;
 
   const data = {
     id,
@@ -26,7 +28,9 @@ router.get('/profile', (req, res, next) => {
     barname,
     price,
     address,
-    location
+    location,
+    hours,
+    description
   };
   res.render('bar/profile', data);
 });
@@ -46,7 +50,9 @@ router.get('/profile/:barId/edit', (req, res, next) => {
         username: bar.username,
         barname: bar.barname,
         price: bar.price,
-        address: bar.address
+        address: bar.address,
+        hours: bar.hours,
+        description: bar.description
       };
 
       res.render('bar/edit', data);
@@ -64,6 +70,8 @@ router.post('/profile', (req, res, next) => {
   const barname = req.body.barname;
   const originalPrice = req.body.price;
   let price = Math.round(originalPrice * 10) / 10;
+  const hours = req.body.hours;
+  const description = req.body.description;
   const address = req.body.address;
   const location = { type: 'Point',
     coordinates: []
@@ -73,7 +81,9 @@ router.post('/profile', (req, res, next) => {
     barname,
     price,
     address,
-    location
+    location,
+    hours,
+    description
   };
 
   const id = req.session.currentUser._id;

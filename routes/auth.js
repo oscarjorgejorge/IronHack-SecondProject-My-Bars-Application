@@ -25,6 +25,8 @@ router.post('/signup', (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
   const barname = req.body.barname;
+  const hours = req.body.hours;
+  const description = req.body.description;
 
   const originalPrice = req.body.price;
   let price = Math.round(originalPrice * 10) / 10;
@@ -81,8 +83,10 @@ router.post('/signup', (req, res, next) => {
           password: hashPass,
           barname,
           price,
+          address,
           location,
-          address
+          hours,
+          description
         });
 
         newBar.save((error) => {
