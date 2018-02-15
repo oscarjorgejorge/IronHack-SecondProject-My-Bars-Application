@@ -51,10 +51,13 @@ function main () {
     //   createMyMarker();
     //   // destroy myMarker;
     // }, 5000);
-
     // --- lop to create markers for the bars location and infoWindow
     // --- create infoWindow with the content
     for (let i = 0; i < myBars.length; i++) {
+      // let hours = '';
+      // if (hours !== '') {
+      //   hours = myBars[i].hours;
+      // }
       let contentString = '<strong>' + myBars[i].barname + '</strong></br>' + myBars[i].address + '</br>' + myBars[i].hours;
       const infoWindow = new google.maps.InfoWindow(
         {content: contentString});

@@ -6,6 +6,7 @@
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,600" rel="stylesheet">
   </head>
   <body>
+<<<<<<< HEAD
     <header>
         <img src="/images/logo-mybars.png" alt="logo-mybars" class="logo">
           <div class="login-signup-container">
@@ -19,6 +20,14 @@
             </form>
           <%}%>
          </div>
+=======
+    <header>I am the header
+      <% if (user) { %> 
+      <form method="post" action='/auth/logout'>
+        <button>Logout</button>
+      </form>
+    <%}%>
+>>>>>>> d434095c1f1bcdc1f56feb76fb40882c7cf387d1
     </header>
       <div class="maincontainer">
     <%- body %>
