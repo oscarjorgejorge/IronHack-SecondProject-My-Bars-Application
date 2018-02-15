@@ -53,8 +53,9 @@ table {
 /* --- ---*/
 
 body {
- 
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
 }
 
 a {
@@ -89,6 +90,24 @@ header {
 
 }
 
+.login-signup-container {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.login-signup-container a {
+  font-size: 1.5rem;
+  align-items: center;
+  text-decoration: none;
+  border: none;
+  color:rgb(51, 49, 49);
+  padding: 0 30px;
+}
+
+.login-signup-container a:first-child {
+
+}
 /* --- Typogryphy ---*/
 
 /* --- Components --- */

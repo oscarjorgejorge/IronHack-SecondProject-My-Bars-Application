@@ -3,19 +3,26 @@
   <head>
     <title>MyBars</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,600" rel="stylesheet">
   </head>
   <body>
     <header>
         <img src="/images/logo-mybars.png" alt="logo-mybars" class="logo">
-      <% if (user) { %> 
-      <form method="post" action='/auth/logout'>
-        <button>Logout</button>
-      </form>
-    <%}%>
+          <div class="login-signup-container">
+              <% if (!user) { %> 
+                <a href='/auth/login'>Login</a>
+                <a href='/auth/signup'>I have a bar</a>
+            <%}%>
+          <% if (user) { %> 
+            <form method="post" action='/auth/logout'>
+              <button>Logout</button>
+            </form>
+          <%}%>
+         </div>
     </header>
       <div class="maincontainer">
     <%- body %>
       </div>
-    <footer>I am the footer</footer>
+    <footer></footer>
   </body>
 </html>
