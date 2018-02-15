@@ -105,7 +105,6 @@ router.post('/profile', (req, res, next) => {
     // --- update database and update information in session.currentUser
     .then(() => {
       Bar.findByIdAndUpdate(id, updates, {new: true}, (err, newInfo) => {
-        console.log(newInfo);
         if (err) {
           return next(err);
         }
@@ -117,6 +116,19 @@ router.post('/profile', (req, res, next) => {
     .catch((err) => {
       console.log(err);
     });
+});
+
+// --- POST Delete
+router.post('/logout', (req, res, next) => {
+  const id = req.session.currentUser._id;
+
+  Bar.findByIdAndRemove(id, (err, product) => {
+    if (err) {
+      return next(err);
+    }
+    req.session.currentUser = null;
+    return res.redirect('/');
+  });
 });
 
 module.exports = router;
