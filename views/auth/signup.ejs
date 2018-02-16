@@ -1,30 +1,32 @@
-<h2>Sign Up</h2>
-
-<form action="/auth/signup" method="POST" >
- <div class="field">
-   <label for="username"> User Name </label>
-   <input type="text" name="username" id="username">
- </div>
- <div class="field">
-   <label for="password"> Password </label>
-   <input type="password" name="password" id="password">
- </div>
- <div class="field">
-  <label for="barname"> Name of the Bar </label>
-  <input type="text" name="barname" id="barname">
- </div>
- <div class="field">
-  <label for="price"> Price </label>
-  <input type="number" step="any" name="price" id="price">
- </div>
-  <label>Address</label>
-  <input type="number" step="any" name="latitude" placeholder="Latitude" >
-  <input type="number" step="any" name="longitude" placeholder="Longitude">
- <div class="field control">
-  <button class="btn submit">Sign Up</button>
- </div>
- <% if (typeof message !== 'undefined') { %> <p class='error'><%= message %> </p> <% } %>
-</form>
-<a href="/auth/login">Already have an eccount? Login here</a>
-
+<div class="form-container">
+  <h2>Sign Up</h2>
+  <form action="/auth/signup" method="POST" >
+   <div class="field">
+     <input type="text" name="username" id="username" placeholder="*  User´s Name">
+   </div>
+   <div class="field">
+     <input type="password" name="password" id="password" placeholder="*  Password">
+   </div>
+   <div class="field">
+    <input type="text" name="barname" id="barname" placeholder="*  Bar´s Name">
+   </div>
+   <div class="field">
+    <input type="number" step="any" name="price" id="price" placeholder="*  Price">
+   </div>
+   <div class="field ">
+    <input type="text" step="any" name="address" placeholder="*  Address">
+  </div>
+  <div class="field ">
+    <input type="text" step="any" name="hours" placeholder="Opening Hours">
+  </div>
+  <div class="field ">
+    <input type="text" step="any" name="description" placeholder="Bar´s Description : Music, events, promotions, etc.">
+  </div>
+   <div class="field ">
+    <button class="btn submit" id="reverse">Sign Up</button>
+   </div>
+   <% if (typeof message !== 'undefined') { %> <p class='error'><%= message %> </p> <% } %>
+  </form>
+  <a href="/auth/login">Already have an account? Login here</a>
+</div>
 

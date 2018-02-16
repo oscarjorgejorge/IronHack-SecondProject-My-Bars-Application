@@ -1,0 +1,24 @@
+<div class="form-container">
+<form action="/bar/profile" method="POST" >
+  <h2>Edit your profile <%= username %> </h2>
+ <div class="field">
+  <input type="text" name="barname" id="barname" placeholder="*  Bar´s Name" value="<%= barname %>">
+ </div>
+ <div class="field">
+  <input type="number" step="any" name="price" id="price" placeholder="*  Price" value="<%= price %>">
+ </div>
+ <div class="field">
+   <input type="text" step="any" name="address" placeholder="*  Address" value="<%= address %>">
+</div>
+<div class="field">
+  <input type="text" step="any" name="hours" placeholder="Opening Hours" value="<%= hours %>">
+</div>
+<div class="field">
+  <input type="text" step="any" name="description" placeholder="Bar´s Description : Music, events, promotions, etc."value="<%= description %>">
+</div>
+  <% if (typeof message !== 'undefined') { %> <p class='error'><%= message %> </p> <% } %>
+ <div class="field">
+  <button class="btn submit">Save</button>
+ </div>
+</form>
+</div>

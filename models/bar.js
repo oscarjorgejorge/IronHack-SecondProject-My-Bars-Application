@@ -8,13 +8,16 @@ const BarSchema = Schema({
   password: String,
   barname: String,
   price: Number,
+  hours: String,
+  description: String,
   location: {
     type: {
       type: String,
       default: 'Point'
     },
     coordinates: [Number]
-  }
+  },
+  address: String
 });
 BarSchema.index({ location: '2dsphere' });
 

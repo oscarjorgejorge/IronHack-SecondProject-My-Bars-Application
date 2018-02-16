@@ -1,13 +1,14 @@
+'use strict';
 const express = require('express');
 const bcrypt = require('bcrypt');
-
+const NodeGeocoder = require('node-geocoder');
 const Bar = require('../models/bar');
 
 const router = express.Router();
 
 const bcryptSalt = 10;
 
-/* GET users listing. */
+// --- GET Signup
 router.get('/signup', (req, res, next) => {
   if (req.session.currentUser) {
     return res.redirect('/bar/profile');
@@ -15,6 +16,7 @@ router.get('/signup', (req, res, next) => {
   res.render('auth/signup');
 });
 
+// --- POST Signup
 router.post('/signup', (req, res, next) => {
   if (req.session.currentUser) {
     return res.redirect('/bar/profile');
@@ -23,23 +25,28 @@ router.post('/signup', (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
   const barname = req.body.barname;
-  const price = req.body.price;
-  const location = {
-    // turn req.body.latitude/long into the number
-    coordinates: [Number(req.body.latitude), Number(req.body.longitude)]
+  const hours = req.body.hours;
+  const description = req.body.description;
+
+  const originalPrice = req.body.price;
+  let price = Math.round(originalPrice * 10) / 10;
+
+  // --- address using with geocoder
+  const address = req.body.address;
+  let location = {
+    coordinates: []
   };
 
-  // validations
-
-  if (username === '' || password === '' || barname === '' || price === '' ||
-  location.coordinates[0] === '' || location.coordinates[1] === '' || password.length < 6) {
+  // --- data validation for signup
+  if (username === '' || password === '' || barname === '' || originalPrice === '' ||
+  address === '' || password.length < 6) {
     const data = {
       message: 'Try again'
     };
     return res.render('auth/signup', data);
   }
 
-  // check if user with this username already exists
+  // --- check if user with this username already exists
   Bar.findOne({ 'username': username }, (err, user) => {
     if (err) {
       return next(err);
@@ -51,27 +58,54 @@ router.post('/signup', (req, res, next) => {
       return res.render('auth/signup', data);
     }
 
-    const salt = bcrypt.genSaltSync(bcryptSalt);
-    const hashPass = bcrypt.hashSync(password, salt);
+    // --- optional settings for geocoder
+    const options = {
+      // provider: 'google',
+      // httpAdapter: 'https', // Default
+      apiKey: 'AIzaSyCHO4Ne2WFbA6IEdXP_XwzyhlvE0QphapU'
+      // formatter: null
+    };
 
-    const newBar = new Bar({
-      username,
-      password: hashPass,
-      barname,
-      price,
-      location
-    });
+    // -- transform address into latitude and longitude, optional settings, no needed
+    const geocoder = NodeGeocoder(options);
+    geocoder.geocode(address)
+      .then((result) => {
+        location.coordinates.push(Number(result[0].latitude));
+        location.coordinates.push(Number(result[0].longitude));
 
-    newBar.save((error) => {
-      if (error) {
-        return next(error);
-      }
-      req.session.currentUser = newBar;
-      res.redirect('/bar/profile');
-    });
+        // --- password encryption
+        const salt = bcrypt.genSaltSync(bcryptSalt);
+        const hashPass = bcrypt.hashSync(password, salt);
+
+        // --- create and save new model in database, inside of geocode for asynchronous js
+        const newBar = new Bar({
+          username,
+          password: hashPass,
+          barname,
+          price,
+          address,
+          location,
+          hours,
+          description
+        });
+
+        newBar.save((error) => {
+          if (error) {
+            return next(error);
+          }
+          // --- storing the new bar in session
+          req.session.currentUser = newBar;
+          console.log(req);
+          res.redirect('/bar/profile');
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   });
 });
 
+// --- GET Login
 router.get('/login', (req, res, next) => {
   if (req.session.currentUser) {
     return res.redirect('/bar/profile');
@@ -79,7 +113,7 @@ router.get('/login', (req, res, next) => {
   res.render('auth/login');
 });
 
-/* handle the POST from the login form. */
+// --- POST Login
 router.post('/login', (req, res, next) => {
   if (req.session.currentUser) {
     return res.redirect('/');
@@ -122,6 +156,7 @@ router.post('/login', (req, res, next) => {
   });
 });
 
+// --- POST Logout
 router.post('/logout', (req, res, next) => {
   req.session.currentUser = null;
   res.redirect('/');

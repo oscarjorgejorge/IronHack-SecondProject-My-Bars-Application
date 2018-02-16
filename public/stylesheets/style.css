@@ -1,23 +1,270 @@
+/* --- Reset -- */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 
-a {
-  color: rgb(27, 17, 163);
+/* --- bar display info ---*/
+
+.bar-info {
+  background-color: #e6e6e6;
+  border: 1px solid brown;
+  display: flex;
 }
+
+.characteristics{
+  font-size: 22px;
+  line-height: 1.3;
+  flex: 1 0 60%;
+}
+
+.photo-bar-map{
+  flex: 1 0 40%;
+  border: 1px solid brown;
+}
+
+.delete-button-bar-info{
+  justify-content: flex-end;
+  padding: 20px;
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+body {
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
 
 .maincontainer {
-  background-color: rgb(150, 190, 39);
-  height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: top;
+  height: 86vh;
+}
+
+.btn {
+  
+  background-color: #ea5a47;
+  border-radius: 20px;
+  border: none;
+  padding: 30px 10px;
+  width: 40vw;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1.5rem;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.cap {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+
+.home-foto {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  height: 100vh;
+  width: 100%;
+  background-position: center;
+  background-image: url('/images/mybars-mobile-main.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* height: 1000px; */
+}
+
+#reverse {
+  border: 1px solid white;
 }
 
 #map{
-  height: 500px;
-  width: 600px;
+  height: 1500px;
+  width: 100%;
   margin: 0 auto;
 }
 
 .error {
-  color: red;
+  color: rgb(173, 173, 173);
+}
+
+
+header {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  background-color: #e6e6e6;
+  height: 120px;
+
+}
+
+footer {
+  
+  display: flex;
+  background-color: #2e2e2e;
+  height: 120px;
+}
+
+.login-signup-container {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.login-signup-container a {
+  font-size: 1.5rem;
+  align-items: center;
+  text-decoration: none;
+  border: none;
+  color:rgb(51, 49, 49);
+  padding: 0 30px;
+}
+
+/* --- Typogryphy ---*/
+
+/* --- Components --- */
+ .logo {
+   width: 311px;
+   height: 113px;
+ }
+
+.form-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20px;
+  padding: 20px 15px;
+  background-color: #ea5a47;
+  border-radius: 5px;
+  height: 60vh;
+}
+
+.form-container h2 {
+  flex: 1 0 50%;
+  font-size: 1.7rem;
+  color: white;
+}
+
+.form-container a {
+  align-self: flex-end;
+  font-size: 1.7rem;
+  color: white;
+  text-decoration: none;
+}
+
+form {
+  flex: 1 0 60%;
+}
+
+.form {
+  flex: none;
+}
+
+input  {
+  width: 100%;
+  background-color: white;
+  line-height: 1.7rem;
+  font-size: 1.7rem;
+  padding: 1rem;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form-container .btn {
+  border: 1 px solid white;
+}
+
+textarea password{
+  background-color : #d1d1d1; 
+}
+
+
+.logout-button {
+  border: none;
+  text-decoration: none;
+  background-color: #e6e6e6;
+  font-size: 1.5rem;
+  font-family: 'Fira Sans', sans-serif;
+  font-weight: 300;
+  color:rgb(51, 49, 49);
+}
+
+.profile-container {
+  background-color:#e6e6e6;
+  padding: 20px 15px;
+  margin: 10px 10px;
+  height: 60vh;
+}
+
+.delete-edit {
+  display: flex;
+  justify-content: flex-start;
+  padding: 20px 10px;
+}
+
+.delete-edit button {
+  border-radius: 20px;
+  border: 1px solid rgb(51, 49, 49);
+  padding: 20px 10px;
+  width: 20vw;
+  color: rgb(51, 49, 49);
+  text-align: center;
+  text-decoration: none;
+  font-size: 1.5rem;
+  margin: 0 10px;
+  cursor: pointer;
+  font-family: 'Fira Sans', sans-serif;
+  font-weight: 300;
+  color:rgb(51, 49, 49);
+  text-transform: uppercase;
+  letter-spacing: 3px;
 }
