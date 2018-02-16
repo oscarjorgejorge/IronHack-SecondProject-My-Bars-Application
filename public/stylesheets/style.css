@@ -55,7 +55,9 @@ table {
 .characteristics{
   font-size: 22px;
   line-height: 1.3;
-  flex: 1 0 60%;
+  flex: 1 0 58%;
+  padding-left: 10px;
+  padding-top: 10px;
 }
 
 .photo-bar-map{
@@ -75,6 +77,14 @@ table {
 }
 
 .error-not-found {
+  background-image: url(/images/vision-borrosa.jpg);
+  background-size: cover;
+  height: 100vh;
+  color: white;
+  font-size: 37px;
+}
+
+.internal-error {
   background-image: url(/images/vision-borrosa.jpg);
   background-size: cover;
   height: 100vh;

@@ -130,8 +130,8 @@ function main () {
 
   function createNewMarker (bar, map) {
     let icon = {
-      url: '../images/coin-brown-border.png',
-      scaledSize: new google.maps.Size(55, 55)
+      url: '../images/beer-icon.png',
+      scaledSize: new google.maps.Size(70, 70)
     };
     const barMarker = new google.maps.Marker({
 
