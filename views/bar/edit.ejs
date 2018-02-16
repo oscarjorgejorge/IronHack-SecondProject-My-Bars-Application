@@ -1,6 +1,6 @@
-<h2>Edit your profile <%= username %> </h2>
-
+<div class="form-container">
 <form action="/bar/profile" method="POST" >
+  <h2>Edit your profile <%= username %> </h2>
  <div class="field">
   <input type="text" name="barname" id="barname" placeholder="*  Bar´s Name" value="<%= barname %>">
  </div>
@@ -21,4 +21,4 @@
   <button class="btn submit">Save</button>
  </div>
 </form>
-
+</div>

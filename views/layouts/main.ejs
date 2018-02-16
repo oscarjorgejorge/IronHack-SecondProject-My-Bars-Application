@@ -7,21 +7,29 @@
   </head>
   <body>
     <header>
-        <img src="/images/logo-mybars.png" alt="logo-mybars" class="logo">
+      <a href="/map">
+        <img src="/images/logo-mybars.png"   alt="logo-mybars" class="logo">
+      </a>
           <div class="login-signup-container">
-              <% if (!user) { %> 
-                <a href='/auth/login'>Login</a>
-                <a href='/auth/signup'>I have a bar</a>
+            <% if (!user) { %> 
+                <a href='/auth/login' class="cap">Login</a>
+                <a href='/auth/signup'class="cap">I have a bar</a>
             <%}%>
-          <% if (user) { %> 
-            <form method="post" action='/auth/logout'>
-              <button>Logout</button>
-            </form>
-          <%}%>
+            <% if (user) { %> 
+                 <a href='/bar/profile'>My Profile</a>
+             <%}%>
+            <% if (user) { %> 
+              <form method="post" action='/auth/logout'>
+                 <button class="logout-button form">Logout</button>
+              </form>
+            <%}%>
          </div>
+        </header> 
       <div class="maincontainer">
     <%- body %>
       </div>
-    <footer></footer>
+    <footer>
+       
+    </footer>
   </body>
 </html>

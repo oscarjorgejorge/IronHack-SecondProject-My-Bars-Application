@@ -1,26 +1,21 @@
+<div class="profile-container">
+<div>
 <h2>Profile information</h2>
 <a href='/'><button>Home</button></a>
 <a href='/map'><button>Map</button></a>
-
-
 <p>User name : <%= username %></p>
-<p>Password</p>
 <p>Name of the bar : <%= barname %></p>
 <p>Price : <%= price %></p>
 <p>Address : <%= address %></p>
 <p>Adress : Latitude : <%= location.coordinates[0] %> and Longitude : <%= location.coordinates[1] %></p>
 <p>Open Hours : <%= hours %></p>
 <p>Bar´s Description : <%= description %></p>
-
-
-
-
-
+</div>
+<div class="delete-edit">
+<a href='/bar/profile/<%= id %>/edit'><button>Edit</button></a>
 <form method="post" action='/bar/delete'>
   <button>Delete</button>
 </form>
-
-<a href='/bar/profile/<%= id %>/edit'><button>Edit</button></a>
-
-
+</div>
+</div>
 
