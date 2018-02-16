@@ -44,54 +44,14 @@ function main () {
       }
     };
 
-    createMyMarker();
-    showMarkers(map);
     // --- pending, update current location :) <<-----------------------------------------------------------------------------------
     // setInterval(() => {
     //   createMyMarker();
     //   // destroy myMarker;
     // }, 5000);
 
-    // --- lop to create markers for the bars location and infoWindow
-    // --- create infoWindow with the content
-
-    // for (let i = 0; i < myBars.length; i++) {
-    //   barsMarker.addListener('click', () => {
-    //       // --- Create bar information under the map
-
-    //       const displayBarInfo = () => {
-    //         infodivs.classList.add('bar-info-container');
-    //         const infodiv = document.createElement('div');
-    //         infodivs.appendChild(infodiv);
-    //         infodiv.classList.add('bar-info');
-    //         let barInfoInnerHtml = '<div class="characteristics"><ul><li><span style="font-weight:bold">Bar´s Name : </span>' + myBars[i].barname +
-    //         '</li><li><span style="font-weight:bold">Price Beer 50cl : </span>' + myBars[i].price + '</li><li><span style="font-weight:bold">Address : </span>' +
-    //         myBars[i].address + '</li><li><span style="font-weight:bold">hours : </span>' + myBars[i].hours + '</li></ul><p style="font-weight:bold">Description :</p><p>' +
-    //         myBars[i].description + '</p></div><div class="photo-bar-map">photo<button class="delete-button-bar-info">X</button></div>';
-    //         infodiv.innerHTML = barInfoInnerHtml;
-    //         const deleteBarInfo = document.getElementsByClassName('delete-button-bar-info')[0];
-
-    //         const destroyInfo = () => {
-    //           deleteBarInfo.removeEventListener('click', destroyInfo);
-    //           infodiv.remove();
-    //         };
-    //         deleteBarInfo.addEventListener('click', destroyInfo);
-    //         infoWindow.close();
-    //         barsMarker.open = false;
-    //       };
-
-    //       btninfo.removeEventListener('click', displayBarInfo);
-    //       btninfo.addEventListener('click', displayBarInfo);
-    //     } else {
-    //       infoWindow.close();
-    //       barsMarker.open = false;
-    //     }
-    //     google.maps.event.addListener(map, 'click', () => {
-    //       infoWindow.close();
-    //       barsMarker.open = false;
-    //     });
-    //   });
-    // }
+    createMyMarker();
+    showMarkers(map);
   }
   initMap();
 
@@ -129,7 +89,7 @@ function main () {
 
   function appendInfoDiv (parent, bar, idx) {
     // check if infodiv exist
-    if (document.getElementById('info').childElementCount < 4) {
+    if (document.getElementById('info').childElementCount < 3) {
       if (!document.getElementById('delete-button-bar-info-' + idx)) {
         const infodiv = document.createElement('div');
         const barInfoInnerHtml = getInfoElementString(bar, idx);
