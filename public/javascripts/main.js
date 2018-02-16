@@ -111,7 +111,7 @@ function main () {
     return '<div class="characteristics"><ul><li><span style="font-weight:bold">Bar´s Name : </span>' + bar.barname +
     '</li><li><span style="font-weight:bold">Price Beer 50cl : </span>' + bar.price + '</li><li><span style="font-weight:bold">Address : </span>' +
     bar.address + '</li><li><span style="font-weight:bold">hours : </span>' + bar.hours + '</li></ul><p style="font-weight:bold">Description :</p><p>' +
-    bar.description + '</p></div><div class="photo-bar-map">photo<button class="delete-button-bar-info" id="delete-button-bar-info-' + idx + '">X</button></div>';
+    bar.description + '</p></div><div class="photo-bar-map"><button class="delete-button-bar-info" id="delete-button-bar-info-' + idx + '">X</button></div>';
   }
 
   function getContentString (bar, idx) {

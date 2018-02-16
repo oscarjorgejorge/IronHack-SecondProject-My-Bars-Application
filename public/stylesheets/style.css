@@ -61,15 +61,33 @@ table {
 .photo-bar-map{
   flex: 1 0 40%;
   border: 1px solid brown;
+  background-image: url('/images/pub_bar-09-512.png');
+  background-size: contain;
 }
 
 .delete-button-bar-info{
-  justify-content: flex-end;
-  padding: 20px;
+  float: right;
+  padding: 15px;
   background-color: black;
   color: white;
   font-weight: bold;
   font-size: 20px;
+}
+
+.error-not-found {
+  background-image: url(/images/vision-borrosa.jpg);
+  background-size: cover;
+  height: 100vh;
+  color: white;
+  font-size: 37px;
+}
+
+.error-message {
+  width: 100vh;
+  margin: 0 auto;
+  position: relative;
+  top: 50px;
+  line-height: 1.3;
 }
 
 body {
