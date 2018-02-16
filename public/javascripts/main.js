@@ -51,14 +51,12 @@ function main () {
     //   createMyMarker();
     //   // destroy myMarker;
     // }, 5000);
+
     // --- lop to create markers for the bars location and infoWindow
     // --- create infoWindow with the content
     for (let i = 0; i < myBars.length; i++) {
-      // let hours = '';
-      // if (hours !== '') {
-      //   hours = myBars[i].hours;
-      // }
-      let contentString = '<strong>' + myBars[i].barname + '</strong></br>' + myBars[i].address + '</br>' + myBars[i].hours;
+      let contentString = '<p style="font-weight: bold;">' + myBars[i].barname + '</p>' + myBars[i].address +
+      '</br>' + myBars[i].hours + '</br></br><button id="btn-information">See more details';
       const infoWindow = new google.maps.InfoWindow(
         {content: contentString});
 
@@ -80,7 +78,6 @@ function main () {
           color: '#966A39',
           fontSize: '12px'
         }
-        // label: myBars[i].price.toString() + '€'
       });
 
       // --- bind each infowindow with each bar´s marker and add event listener to display and hide the infowindow
@@ -92,6 +89,34 @@ function main () {
         if (!barsMarker.open) {
           infoWindow.open(map, barsMarker);
           barsMarker.open = true;
+
+          // --- Create bar information under the map
+          const infodivs = document.getElementById('info');
+          var btninfo = document.getElementById('btn-information');
+
+          const displayBarInfo = () => {
+            infodivs.classList.add('bar-info-container');
+            const infodiv = document.createElement('div');
+            infodivs.appendChild(infodiv);
+            infodiv.classList.add('bar-info');
+            let barInfoInnerHtml = '<div class="characteristics"><ul><li><span style="font-weight:bold">Bar´s Name : </span>' + myBars[i].barname +
+            '</li><li><span style="font-weight:bold">Price Beer 50cl : </span>' + myBars[i].price + '</li><li><span style="font-weight:bold">Address : </span>' +
+            myBars[i].address + '</li><li><span style="font-weight:bold">hours : </span>' + myBars[i].hours + '</li></ul><p style="font-weight:bold">Description :</p><p>' +
+            myBars[i].description + '</p></div><div class="photo-bar-map">photo<button class="delete-button-bar-info">X</button></div>';
+            infodiv.innerHTML = barInfoInnerHtml;
+            const deleteBarInfo = document.getElementsByClassName('delete-button-bar-info')[0];
+
+            const destroyInfo = () => {
+              deleteBarInfo.removeEventListener('click', destroyInfo);
+              infodiv.remove();
+            };
+            deleteBarInfo.addEventListener('click', destroyInfo);
+            infoWindow.close();
+            barsMarker.open = false;
+          };
+
+          btninfo.removeEventListener('click', displayBarInfo);
+          btninfo.addEventListener('click', displayBarInfo);
         } else {
           infoWindow.close();
           barsMarker.open = false;
